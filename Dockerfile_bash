@@ -55,18 +55,18 @@ RUN	mkdir -p /opt/cbica/src/deepmrseg && \
 RUN deepmrseg_downloadmodel --model dlicv && \
     tree ~/.deepmrseg
 WORKDIR /data
-ENTRYPOINT ["deepmrseg_apply"]
-#ENTRYPOINT ["/bin/bash"]
+#ENTRYPOINT ["deepmrseg_apply"]
+ENTRYPOINT ["/bin/bash"]
 
 
 
 # Build Docker image
 # ------------------
-# "% nvidia-docker build -t jjleewustledu/deepmrseg_image:20220615 -f ./Dockerfile ./"
+# "% nvidia-docker build -t jjleewustledu/deepmrseg_image:20220515 -f ./Dockerfile ./"
 #
 # Implement a quick application.
 # ------------------------------
-# "% nvidia-docker run -it -v $(pwd):/data --rm jjleewustledu/deepmrseg_image:20220615 --task dlicv --inImg fileprefix.nii.gz --outImg fileprefix_DLICV.nii.gz"
+# "% nvidia-docker run -it -v $(pwd):/data --rm jjleewustledu/deepmrseg_image:20220515 --task dlicv --inImg fileprefix.nii.gz --outImg fileprefix_DLICV.nii.gz"
 #
 # will invoke the following from the within the container
 # "tf-docker /data > deepmrseg_apply --task dlicv --inImg fileprefix.nii.gz --outImg fileprefix_DLICV.nii.gz"
@@ -74,23 +74,23 @@ ENTRYPOINT ["deepmrseg_apply"]
 #
 # Implement production application.
 # ---------------------------------
-# "% nvidia-docker run -it -v $(pwd):/data --rm deepmrseg_image:20220615 --task dlicv --sList SLIST"
+# "% nvidia-docker run -it -v $(pwd):/data --rm deepmrseg_image:20220515 --task dlicv --sList SLIST"
 # SLIST := Image list file name. Enter a comma separated list file with
 #          columns for: ID, input image(s) and output image. (REQUIRED)
 #
 # Push tested application.
 # ------------------------
 # "% nvidia-docker images # to see local images"
-# "% nvidia-docker push jjleewustledu/deepmrseg_image:20220615"
+# "% nvidia-docker push jjleewustledu/deepmrseg_image:20220515"
 #
 # Implement with singularity.
 # ---------------------------
 # KLUDGE:  ensure that ~/.deepmrseg/trained_models/dlicv/DeepMRSeg_DLICV_v1.0/ exists on singularity cluster and is populated with models.  Container may expect to find .deepmrseg in unexpected locations; accomodate container's error messages.
-# "% singularity pull docker://jjleewustledu/deepmrseg_image:20220615"
-# '% singularity exec --bind $(pwd):/data /home/aris_data/ADNI_FDG/bin/deepmrseg_image_20220615.sif "deepmrseg_apply" "--task" "dlicv" "--inImg" "/data/fileprefix.nii.gz" "--outImg" "/data/fileprefix_DLICV.nii.gz"' ### no gpu
-# '% singularity exec --nv --bind $(pwd):/data /home/aris_data/ADNI_FDG/bin/deepmrseg_image_20220615.sif "deepmrseg_apply" "--task" "dlicv" "--inImg" "/data/fileprefix.nii.gz" "--outImg" "/data/fileprefix_DLICV.nii.gz"' ### with gpu
+# "% singularity pull docker://jjleewustledu/deepmrseg_image:20220515"
+# '% singularity exec --bind $(pwd):/data /home/aris_data/ADNI_FDG/bin/deepmrseg_image_20220515.sif "deepmrseg_apply" "--task" "dlicv" "--inImg" "/data/fileprefix.nii.gz" "--outImg" "/data/fileprefix_DLICV.nii.gz"' ### no gpu
+# '% singularity exec --nv --bind $(pwd):/data /home/aris_data/ADNI_FDG/bin/deepmrseg_image_20220515.sif "deepmrseg_apply" "--task" "dlicv" "--inImg" "/data/fileprefix.nii.gz" "--outImg" "/data/fileprefix_DLICV.nii.gz"' ### with gpu
 #
-# '% singularity exec --nv --bind $(pwd):/data /home/aris_data/ADNI_FDG/bin/deepmrseg_image_20220615.sif "bash"' ### debug
+# '% singularity exec --nv --bind $(pwd):/data /home/aris_data/ADNI_FDG/bin/deepmrseg_image_20220515.sif "bash"' ### debug
 
 
 
